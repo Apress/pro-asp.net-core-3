@@ -1,0 +1,34 @@
+﻿@model Product
+@{  Layout = "_SimpleLayout"; }
+
+<h5 class="bg-primary text-white text-center p-2">HTML Form</h5>
+
+<form asp-action="submitform" method="post" id="htmlform">
+    <div class="form-group">
+        <label asp-for="ProductId"></label>
+        <input class="form-control" asp-for="ProductId" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Category.Name">Category</label>
+        <select class="form-control" asp-for="CategoryId" 
+             asp-items="@ViewBag.Categories">
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Supplier.Name">Supplier</label>
+        <textarea class="form-control" asp-for="Supplier.Name"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<button form="htmlform" asp-action="submitform" class="btn btn-primary mt-2">
+    Sumit (Outside Form)
+</button>

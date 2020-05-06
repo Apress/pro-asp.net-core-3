@@ -1,0 +1,49 @@
+﻿@page "/forms/edit/{id:long}"
+@layout EmptyLayout
+
+<h4 class="bg-primary text-center text-white p-2">Edit</h4>
+
+<FormSpy PersonData="PersonData">    
+    <EditForm Model="PersonData">
+        <div class="form-group">
+            <label>Person ID</label>
+            <InputNumber class="form-control" 
+                @bind-Value="PersonData.PersonId" disabled />
+        </div>
+        <div class="form-group">
+            <label>Firstname</label>
+            <InputText class="form-control" @bind-Value="PersonData.Firstname" />
+        </div>
+        <div class="form-group">
+            <label>Surname</label>
+            <InputText class="form-control" @bind-Value="PersonData.Surname" />
+        </div>
+        <div class="form-group">
+            <label>Dept ID</label>
+            <InputNumber class="form-control" 
+                @bind-Value="PersonData.DepartmentId" />
+        </div>
+        <div class="text-center">
+            <NavLink class="btn btn-secondary" href="/forms">Back</NavLink>
+       </div>
+    </EditForm>
+</FormSpy>
+
+
+@code {
+
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+
+    [Inject]
+    DataContext Context { get; set; }
+
+    [Parameter]
+    public long Id { get; set; }
+
+    public Person PersonData { get; set; } = new Person();
+
+    protected async override Task OnParametersSetAsync() {
+        PersonData = await Context.People.FindAsync(Id);
+    }
+}

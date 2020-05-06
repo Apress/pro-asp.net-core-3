@@ -1,0 +1,19 @@
+﻿@model TempDataDictionary
+@{ Layout = "_SimpleLayout"; }
+
+<table class="table table-striped table-bordered table-sm">
+    <thead>
+        <tr class="bg-primary text-white text-center">
+            <th colspan="2">Form Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (string key in Model.Keys) {
+            <tr>
+                <th>@key</th>
+                <td>@Model[key]</td>
+            </tr>
+        }        
+    </tbody>
+</table>
+<a class="btn btn-primary" asp-action="Index">Return</a>

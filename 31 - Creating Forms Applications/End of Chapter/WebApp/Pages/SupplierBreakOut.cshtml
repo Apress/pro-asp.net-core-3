@@ -1,0 +1,60 @@
+﻿@page "/pages/supplier"
+@model SupplierPageModel
+
+<div class="m-2">
+    <h5 class="bg-secondary text-white text-center p-2">New Supplier</h5> 
+    <form asp-page="SupplierBreakOut" method="post">
+        <div class="form-group">
+            <label asp-for="Supplier.Name"></label>
+            <input class="form-control" asp-for="Supplier.Name"  />
+        </div>
+        <div class="form-group">
+            <label asp-for="Supplier.City"></label>
+            <input class="form-control" asp-for="Supplier.City"  />
+        </div>
+        <button class="btn btn-secondary" type="submit">Create</button>
+        <a class="btn btn-outline-secondary" 
+                asp-page="@Model.ReturnPage" asp-route-id="@Model.ProductId">
+            Cancel
+        </a>
+    </form>
+</div>
+
+@functions {
+
+    public class SupplierPageModel: PageModel {
+        private DataContext context;
+
+        public SupplierPageModel(DataContext dbContext) {
+            context = dbContext;
+        }
+
+        [BindProperty]
+        public Supplier Supplier { get; set; }
+
+        public string ReturnPage { get; set; }
+        public string ProductId { get; set; }
+
+        public void OnGet([FromQuery(Name="Product")] Product product, 
+                string returnPage) {
+            TempData["product"] = Serialize(product);
+            TempData["returnAction"] =  ReturnPage = returnPage;
+            TempData["productId"] = ProductId = product.ProductId.ToString();
+        }
+
+        public async Task<IActionResult> OnPostAsync() {
+            context.Suppliers.Add(Supplier);
+            await context.SaveChangesAsync();
+            Product product = Deserialize(TempData["product"] as string);
+            product.SupplierId = Supplier.SupplierId;
+            TempData["product"] = Serialize(product);
+            string id = TempData["productId"] as string;
+            return RedirectToPage(TempData["returnAction"] as string, 
+                new { id = id });
+        }
+
+        private string Serialize(Product p) => JsonSerializer.Serialize(p);
+        private Product Deserialize(string json) => 
+            JsonSerializer.Deserialize<Product>(json);
+    }
+}

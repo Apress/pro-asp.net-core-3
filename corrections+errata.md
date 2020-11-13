@@ -18,6 +18,16 @@ The SportsStore application will start and will be able to access the database. 
 
 ***
 
+**Chapter 13**
+
+On page 303 in the sentence "The URL pattern used by fallbacks is {path:nofile}, and they rely on the Order property...", there are two typos in "{path:nofile}". 
+It should be: 
+
+ {*path:nonfile}
+
+ (Thank you Ilya for reporting this typo)
+ 
+ ***
 
 **Chapter 28**
 

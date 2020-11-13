@@ -1,0 +1,15 @@
+﻿@model Product
+<script type="text/javascript">
+    $(document).ready(() => {
+        const catGroup = $("#categoryGroup").hide();
+        $("select[name='Product.CategoryId']").on("change", (event) =>
+            event.target.value === "-1" ? catGroup.show() : catGroup.hide());
+    });
+</script>
+
+<div class="form-group bg-info p-1" id="categoryGroup">
+    <label class="text-white" asp-for="Category.Name">
+        New Category Name
+    </label>
+    <input class="form-control" asp-for="Category.Name" value="" />
+</div>

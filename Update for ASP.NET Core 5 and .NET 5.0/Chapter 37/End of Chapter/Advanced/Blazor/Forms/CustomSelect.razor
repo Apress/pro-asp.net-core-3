@@ -1,0 +1,35 @@
+﻿@typeparam TValue
+@inherits InputBase<TValue>
+
+<select class="form-control @CssClass" value="@CurrentValueAsString" 
+            @onchange="@(ev => CurrentValueAsString = ev.Value as string)">
+        @ChildContent
+        @foreach (KeyValuePair<string, TValue> kvp in Values) {
+            <option value="@kvp.Value">@kvp.Key</option>
+        }
+</select>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public IDictionary<string, TValue> Values { get; set; }
+
+    [Parameter]
+    public Func<string, TValue> Parser { get; set; }
+
+    protected override bool TryParseValueFromString(string value, out TValue result,
+            out string validationErrorMessage) {
+        try {
+            result = Parser(value);
+            validationErrorMessage = null;
+            return true;
+        } catch {
+            result = default(TValue);
+            validationErrorMessage = "The value is not valid";
+            return false;
+        }
+    }
+}

@@ -18,16 +18,6 @@ The SportsStore application will start and will be able to access the database. 
 
 ***
 
-**Chapter 13**
-
-On page 303 in the sentence "The URL pattern used by fallbacks is {path:nofile}, and they rely on the Order property...", there are two typos in "{path:nofile}". 
-It should be: 
-
- {*path:nonfile}
-
- (Thank you Ilya for reporting this typo)
- 
- ***
 
 **Chapter 28**
 
@@ -39,6 +29,20 @@ The segment `controller` should be `controllers` like this:
 
     http://localhost:5000/controllers/Form
 
-(Thanks for Joel Hallan for reporting this problem)
+(Thanks to Joel Hallan for reporting this problem)
 ***
 
+**Chapter 39**
+
+The `CheckPassword` method in Listing 39-27 doesn't check the password provided by the JavaScript client. Use the following code instead:
+
+    private async Task<bool> CheckPassword(Credentials creds) {
+        IdentityUser user = await userManager.FindByNameAsync(creds.Username);
+        if (user != null) {
+            return (await signinManager.CheckPasswordSignInAsync(user, 
+                creds.Password, true)).Succeeded;
+        }
+        return false;
+    }
+
+(Thanks to Amna Al Naseri for reporting this problem)

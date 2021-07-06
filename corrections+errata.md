@@ -17,7 +17,21 @@ The SportsStore application will start and will be able to access the database. 
 (Thanks to David Lovell for reporting this problem)
 
 ***
+**Chapter 11**
 
+The statement that checks to see whether the administration user exists in the database in Listing 11-7 is incorrect:
+
+    IdentityUser user = await userManager.FindByIdAsync(adminUser);
+
+The statement will never locate the administration user, even when one exists in the database. Use this statement instead:
+
+    IdentityUser user = await userManager.FindByNameAsync(adminUser);
+
+
+
+(Thanks to Yanko Hernández Álvarez for reporting this problem)
+
+***
 
 **Chapter 28**
 

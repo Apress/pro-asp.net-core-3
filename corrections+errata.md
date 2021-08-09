@@ -32,6 +32,26 @@ The statement will never locate the administration user, even when one exists in
 (Thanks to Yanko Hernández Álvarez for reporting this problem)
 
 ***
+**Chapter 15***
+
+The request handler code added to the project in Listing 15-4 responds to all requests and not just those for the /config URL. Use this code within the `Configure` method instead:
+
+    app.Use(async (context, next) => {
+        if (context.Request.Path == "/config") {
+            string defaultDebug = Configuration["Logging:LogLevel:Default"];
+            await context.Response
+                .WriteAsync($"The config setting is: {defaultDebug}");
+            string environ = Configuration["ASPNETCORE_ENVIRONMENT"];
+            await context.Response
+                .WriteAsync($"\nThe env setting is: {environ}");
+        } else {
+            await next();
+        }
+    });
+
+(Thanks to Yanko Hernández Álvarez for reporting this problem)
+
+***
 
 **Chapter 28**
 

@@ -23,7 +23,7 @@ namespace SportsStore.Models {
                 .CreateScope().ServiceProvider
                 .GetRequiredService<UserManager<IdentityUser>>();
 
-            IdentityUser user = await userManager.FindByIdAsync(adminUser);
+            IdentityUser user = await userManager.FindByNameAsync(adminUser);
             if (user == null) {
                 user = new IdentityUser("Admin");
                 user.Email = "admin@example.com";
